@@ -1,5 +1,5 @@
 package rgr;
 
-public class Angles {
+public class Angles extends Ad_type{
 
 }
