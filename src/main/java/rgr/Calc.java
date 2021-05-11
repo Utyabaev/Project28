@@ -1,4 +1,6 @@
 package rgr;
+
+
 import javax.swing.*;
 import javax.swing.text.*;
 import java.io.*;
@@ -11,53 +13,53 @@ public class Calc extends JFrame {
     private MyDocumentFilter documentFilter;
     JTextField tiraj_field, tiraj_field2, result;
     int mn_size_leaflets = 0,mn_size_bcards = 0, mn_format = 0, mn_lamination = 0, mn_color = 0, mn_product = 1; double discount = 0;
-    JCheckBox card_y, card_n, leaflets, b_cards;
+    JCheckBox card_y, card_n, leaflets, bcards;
     boolean test;
-    
+
     public static double calc_bcards(int tiraj, int paper, int phormat, int lam, int ang, int type, int dis){
-    	double price = 0;
-    	if (paper == 1) {
-    	price +=1;
-    	}
-    	if (paper == 2) {
-    	price +=5;
-    	}
-    	if (paper == 3) {
-    	price +=2;
-    	}
-    	if (paper == 4) {
-    	price +=6;
-    	}
-    	if (phormat == 1) {
-    	price +=10;
-    	}
-    	if (phormat == 2) {
-    	price +=9;
-    	}
-    	if (lam == 1) {
-    	price +=40;
-    	}
-    	if (ang == 1) {
-    	price +=30;
-    	}
-    	if (type == 1) {
-    	price +=9;
-    	}
-    	if (type == 2) {
-    	price +=4;
-    	}
-    	if (type == 3) {
-    	price +=3;
-    	}
-    	if (type == 4) {
-    	price +=1;
-    	}
-    	if (dis == 1) {
-    	price -= price * 0.15;
-    	}
-    	return price * tiraj;
-    	}
-    
+        double price = 0;
+        if (paper == 1) {
+            price +=1;
+        }
+        if (paper == 2) {
+            price +=5;
+        }
+        if (paper == 3) {
+            price +=2;
+        }
+        if (paper == 4) {
+            price +=6;
+        }
+        if (phormat == 1) {
+            price +=10;
+        }
+        if (phormat == 2) {
+            price +=9;
+        }
+        if (lam == 1) {
+            price +=40;
+        }
+        if (ang == 1) {
+            price +=30;
+        }
+        if (type == 1) {
+            price +=9;
+        }
+        if (type == 2) {
+            price +=4;
+        }
+        if (type == 3) {
+            price +=3;
+        }
+        if (type == 4) {
+            price +=1;
+        }
+        if (dis == 1) {
+            price -= price * 0.15;
+        }
+        return price * tiraj;
+    }
+
     public Calc() {
 
         final Error_msg error_msg_paper = new Error_msg();
@@ -68,7 +70,7 @@ public class Calc extends JFrame {
 
         JFrame frame = new JFrame("Калькулятор стоимости производства рекламных материалов. Полиграфия.");
         frame.setLayout(null);
-        frame.setSize(490, 580);
+        frame.setSize(490, 650);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         JPanel contents = new JPanel(new FlowLayout());
@@ -93,15 +95,91 @@ public class Calc extends JFrame {
         final JCheckBox bcards = new JCheckBox("Визитки");
         bcards.setBounds(260,10,100,25);
         contents.add(bcards);
-        
-        /*bcards.setVisible(false);
-        leaflets.setVisible(false);
 
-        String[] ch_ad = {"--ВЫБЕРИТЕ--","Визитки","Листовки"};
-        final JComboBox ch_ad2 = new JComboBox(ch_ad);
-        ch_ad2.setBounds(150, 10, 200, 25);
-        contents.add(ch_ad2);*/
-       
+        leaflets.setEnabled(false);
+        bcards.setEnabled(false);
+
+        String admin_login = "admin";
+        String admin_pass = "12345";
+
+        String head_login = "head";
+        String head_pass = "11111";
+
+        final JFrame fauth = new JFrame("subversion");
+        fauth.setTitle ("Авторизация");
+        fauth.setBounds(500,400,400,400);
+        fauth.setLocationRelativeTo(null);
+        fauth.setResizable(false);
+
+        final JButton auth = new JButton("Логин");
+        auth.setBounds(160, 540, 150, 30);
+        auth.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fauth.setVisible(true);
+            }
+        });
+
+        contents.add(auth);
+
+        JPanel main_panel2 = new JPanel();
+        main_panel2.setLayout(null);
+        fauth.add(main_panel2);
+        main_panel2.setBounds(500,400,400,400);
+
+        JTextField login = new JTextField(15);
+        login.setBounds(100,20,200,25);
+        main_panel2.add(login);
+
+        JLabel login_label = new JLabel("Логин:");
+        login_label.setBounds(40,20,600,20);
+        main_panel2.add(login_label);
+
+        JPasswordField pass = new JPasswordField(15);
+        pass.setBounds(100,60,200,25);
+        main_panel2.add(pass);
+
+        JLabel pass_label = new JLabel("Пароль:");
+        pass_label.setBounds(40,60,600,20);
+        main_panel2.add(pass_label);
+
+        JLabel login_succesfull = new JLabel("Вход произведен");
+        login_succesfull.setBounds(5,5,200,20);
+        contents.add(login_succesfull);
+        login_succesfull.setVisible(false);
+
+        JButton enter = new JButton("Вход");
+        enter.setBounds(205, 110, 100, 25);
+        main_panel2.add(enter);
+        enter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if ( (login.getText().equals(admin_login) && pass.getText().equals(admin_pass)) || (login.getText().equals(head_login) && pass.getText().equals(head_pass)) ) {
+                    fauth.setVisible(false);
+                    auth.setEnabled(false);
+                    leaflets.setEnabled(true);
+                    bcards.setEnabled(true);
+                    login_succesfull.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Неверный логин или пароль", "Внимание", JOptionPane.ERROR_MESSAGE);
+
+                }
+            }
+        });
+
+        JButton back = new JButton("Назад");
+        back.setBounds(95, 110, 100, 25);
+        main_panel2.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fauth.setVisible(false);
+            }
+        });
+
+        fauth.setSize(400,180);
+
         String[] ch_paper = {"--ВЫБЕРИТЕ--","105гр мелованная","170гр мелованная","300гр мелованная","80гр офсетная"};
         final JComboBox paper = new JComboBox(ch_paper);
         paper.setBounds(20, 110, 200, 25);
@@ -208,13 +286,13 @@ public class Calc extends JFrame {
                 }
             }
         });
-        
+
         if (bcards.isSelected() == false) {
-        	test = false;
+            test = false;
         }
-        
-        
-        
+
+
+
         leaflets.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -223,7 +301,7 @@ public class Calc extends JFrame {
                 }
             }
         });
-        
+
         bcards.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -303,18 +381,18 @@ public class Calc extends JFrame {
         ActionListener informationListener = new Info();
         info.addActionListener(informationListener);
         contents.add(info);
-        
+
         leaflets.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 card_y.setEnabled(true);
                 card_n.setEnabled(true);
-            tiraj_field.setEnabled(true);
-            paper.setEnabled(true);
-            ch_phormat_leaflets2.setEnabled(true);
-            ch_perforation2.setEnabled(true);
-            ch_type_leaflets2.setEnabled(true);
-            calculate.setEnabled(true);
+                tiraj_field.setEnabled(true);
+                paper.setEnabled(true);
+                ch_phormat_leaflets2.setEnabled(true);
+                ch_perforation2.setEnabled(true);
+                ch_type_leaflets2.setEnabled(true);
+                calculate.setEnabled(true);
                 paper2.setEnabled(false);
                 ch_phormat_bcards2.setEnabled(false);
                 lamination.setEnabled(false);
@@ -341,7 +419,7 @@ public class Calc extends JFrame {
                 ch_type_leaflets2.setEnabled(false);
             }
         });
-        
+
         calculate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -349,72 +427,74 @@ public class Calc extends JFrame {
                 int paper_leaflets_val = 0, paper_bcards_val = 0, phormat_leaflets_val = 0, phormat_bcards_val = 0,
                         perforation_val = 0, lam_val = 0, ang_val = 0, type_leaflets_val = 0, type_bcards_val = 0, tiraj_val = 0;
 
+
+
                 if (card_y.isSelected()) {
                     discount = 0.15;
                 }
 
-               Paper leaflets_pap = new Paper();
-               Paper bcards_pap = new Paper();
-                
+                Paper leaflets_pap = new Paper();
+                Paper bcards_pap = new Paper();
+
                 String msg = (String)paper.getSelectedItem();
                 switch (msg) {
                     case "--ВЫБЕРИТЕ--":
-                    leaflets_pap.setPrice(0);
+                        leaflets_pap.setPrice(0);
                         break;
                     case "105гр мелованная":
-                    leaflets_pap.setPrice(2);
+                        leaflets_pap.setPrice(2);
                         break;
-                    case "170гр мелованная": 
-                    leaflets_pap.setPrice(3);
+                    case "170гр мелованная":
+                        leaflets_pap.setPrice(3);
                         break;
                     case "300гр мелованная":
-                    leaflets_pap.setPrice(4);
+                        leaflets_pap.setPrice(4);
                         break;
-                    case "80гр офсетная": 
-                    leaflets_pap.setPrice(5);
+                    case "80гр офсетная":
+                        leaflets_pap.setPrice(5);
                         break;
 
                 }
 
                 String msg2 = (String)paper2.getSelectedItem();
                 switch (msg2) {
-                    case "--ВЫБЕРИТЕ--": 
-                    bcards_pap.setPrice(0);
+                    case "--ВЫБЕРИТЕ--":
+                        bcards_pap.setPrice(0);
                         break;
-                    case "200гр глянцевая": 
-                    bcards_pap.setPrice(1);                   
+                    case "200гр глянцевая":
+                        bcards_pap.setPrice(1);
                         break;
-                    case "300гр глянцевая": 
-                    bcards_pap.setPrice(5);
+                    case "300гр глянцевая":
+                        bcards_pap.setPrice(5);
                         break;
-                    case "200гр матовая": 
-                    bcards_pap.setPrice(2);
+                    case "200гр матовая":
+                        bcards_pap.setPrice(2);
                         break;
-                    case "300гр матовая": 
-                    bcards_pap.setPrice(6);
+                    case "300гр матовая":
+                        bcards_pap.setPrice(6);
                         break;
 
                 }
-                
+
                 Phormat ph_leaflets = new Phormat();
                 Phormat ph_bcards = new Phormat();
 
                 String msg3 = (String)ch_phormat_leaflets2.getSelectedItem();
                 switch (msg3) {
                     case "--ВЫБЕРИТЕ--":
-                    ph_leaflets.setPrice(0);
+                        ph_leaflets.setPrice(0);
                         break;
-                    case "A4": 
-                    ph_leaflets.setPrice(10);
+                    case "A4":
+                        ph_leaflets.setPrice(10);
                         break;
                     case "A5":
-                    ph_leaflets.setPrice(8);
+                        ph_leaflets.setPrice(8);
                         break;
-                    case "A6": 
-                    ph_leaflets.setPrice(6);
+                    case "A6":
+                        ph_leaflets.setPrice(6);
                         break;
                     case "A7":
-                    ph_leaflets.setPrice(4);
+                        ph_leaflets.setPrice(4);
                         break;
 
                 }
@@ -422,82 +502,82 @@ public class Calc extends JFrame {
                 String msg4 = (String)ch_phormat_bcards2.getSelectedItem();
                 switch (msg4) {
                     case "--ВЫБЕРИТЕ--":
-                    ph_bcards.setPrice(0);
+                        ph_bcards.setPrice(0);
                         break;
-                    case "Стандарт (50х90мм)": 
-                    ph_bcards.setPrice(10);
+                    case "Стандарт (50х90мм)":
+                        ph_bcards.setPrice(10);
                         break;
                     case "Евро (55х85мм)":
-                    ph_bcards.setPrice(9);
+                        ph_bcards.setPrice(9);
                         break;
 
                 }
-                
+
                 Perforation per = new Perforation();
 
                 String msg5 = (String)ch_perforation2.getSelectedItem();
                 switch (msg5) {
-                    case "--ВЫБЕРИТЕ--": 
-                    per.setPrice(0);
+                    case "--ВЫБЕРИТЕ--":
+                        per.setPrice(0);
                         break;
-                    case "1 сгиб/линия": 
-                    per.setPrice(2);
+                    case "1 сгиб/линия":
+                        per.setPrice(2);
                         break;
-                    case "2 сгиба/линии": 
-                    per.setPrice(4);
+                    case "2 сгиба/линии":
+                        per.setPrice(4);
                         break;
-                    case "3 сгиба/линии": 
-                    per.setPrice(6);
+                    case "3 сгиба/линии":
+                        per.setPrice(6);
                         break;
                     case "4 сгиба/линии":
-                    per.setPrice(8);
+                        per.setPrice(8);
                         break;
 
                 }
-                
+
                 Typee t_leaflets = new Typee();
                 Typee t_bcards = new Typee();
 
                 String msg6 = (String)ch_type_leaflets2.getSelectedItem();
                 switch (msg6) {
-                    case "--ВЫБЕРИТЕ--": 
-                    t_leaflets.setPrice(0);
+                    case "--ВЫБЕРИТЕ--":
+                        t_leaflets.setPrice(0);
                         break;
                     case "4+4 (двусторонняя)":
-                    t_leaflets.setPrice(10);
+                        t_leaflets.setPrice(10);
                         break;
-                    case "4+0 (односторонняя)": 
-                    t_leaflets.setPrice(5);
+                    case "4+0 (односторонняя)":
+                        t_leaflets.setPrice(5);
                         break;
-                    case "1+0 (ч/б односторонняя)": 
-                    t_leaflets.setPrice(2);
+                    case "1+0 (ч/б односторонняя)":
+                        t_leaflets.setPrice(2);
                         break;
-                    case "1+1 (ч/б двусторонняя)": 
-                    t_leaflets.setPrice(1);
+                    case "1+1 (ч/б двусторонняя)":
+                        t_leaflets.setPrice(1);
                         break;
 
                 }
 
                 String msg7 = (String)ch_type_bcards2.getSelectedItem();
                 switch (msg7) {
-                    case "--ВЫБЕРИТЕ--": 
-                    t_bcards.setPrice(0);
+                    case "--ВЫБЕРИТЕ--":
+                        t_bcards.setPrice(0);
                         break;
-                    case "4+4 (двусторонняя)": 
-                    t_bcards.setPrice(9);
+                    case "4+4 (двусторонняя)":
+                        t_bcards.setPrice(9);
                         break;
                     case "4+0 (односторонняя)":
-                    t_bcards.setPrice(4);
+                        t_bcards.setPrice(4);
                         break;
                     case "1+0 (ч/б односторонняя)":
-                    t_bcards.setPrice(3);
+                        t_bcards.setPrice(3);
                         break;
                     case "1+1 (ч/б двусторонняя)":
-                    t_bcards.setPrice(1);
+                        t_bcards.setPrice(1);
                         break;
 
                 }
-                
+
                 Lamination lam = new Lamination();
                 Angles ang = new Angles();
 
@@ -514,18 +594,18 @@ public class Calc extends JFrame {
                     error_msg_tiraj.crash_tiraj();
                     return;
                 }
-                
+
                 paper_leaflets_val = leaflets_pap.getPrice();
                 phormat_leaflets_val = ph_leaflets.getPrice();
                 perforation_val = per.getPrice();
                 type_leaflets_val = t_leaflets.getPrice();
-                
-                paper_bcards_val = bcards_pap.getPrice(); 
+
+                paper_bcards_val = bcards_pap.getPrice();
                 phormat_bcards_val = ph_bcards.getPrice();
                 type_bcards_val= t_bcards.getPrice();
                 lam_val = lam.getPrice();
                 ang_val = ang.getPrice();
-                
+
 
                 if ( (leaflets.isSelected()) || (bcards.isSelected()) ) {
                     String tiraj_val_str = tiraj_field.getText();
@@ -566,56 +646,56 @@ public class Calc extends JFrame {
                     error_msg_type.crash_type();
                     return;
                 }
-                
+
                 if (leaflets.isSelected()) {
-                	double rezz1 = (paper_leaflets_val + phormat_leaflets_val + perforation_val + type_leaflets_val) * tiraj_val;
+                    double rezz1 = (paper_leaflets_val + phormat_leaflets_val + perforation_val + type_leaflets_val) * tiraj_val;
                     double rez1 = rezz1 - rezz1 * discount;
                     String rez1_value = ""+rez1;
                     try {
-                    	FileWriter writer = new FileWriter("Результат.txt");
-                    	writer.write("Листовки: " +
-                    	"\nТираж: " + tiraj_val +
-                    	"\nСтоимость бумаги: " + paper_leaflets_val +
-                    	"\nСтоимость формата: " + phormat_leaflets_val +
-                    	"\nСтоимость перфорации: " + perforation_val +
-                    	"\nСтоимость типа: " + type_leaflets_val +
-                    	"\nСкидка: " + discount +
-                    	"\nЦена: " + rez1_value);
-                    	writer.close();
-                    	} catch(IOException ex) {
-                    	ex.printStackTrace();
-                    	}
-                    	result.setText(rez1_value+" Рублей");
+                        FileWriter writer = new FileWriter("Результат.txt");
+                        writer.write("Листовки: " +
+                                "\nТираж: " + tiraj_val +
+                                "\nСтоимость бумаги: " + paper_leaflets_val +
+                                "\nСтоимость формата: " + phormat_leaflets_val +
+                                "\nСтоимость перфорации: " + perforation_val +
+                                "\nСтоимость типа: " + type_leaflets_val +
+                                "\nСкидка: " + discount +
+                                "\nЦена: " + rez1_value);
+                        writer.close();
+                    } catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    result.setText(rez1_value+" Рублей");
                     discount = 0;
                     mn_size_leaflets = 0;
                     return;
                 }
 
                 if (bcards.isSelected()) {
-                	double rezz2 = (paper_bcards_val + phormat_bcards_val + type_bcards_val + lam_val + ang_val) * tiraj_val;
+                    double rezz2 = (paper_bcards_val + phormat_bcards_val + type_bcards_val + lam_val + ang_val) * tiraj_val;
                     double rez4 = rezz2 - rezz2 * discount;
                     String rez4_value = ""+rez4;
                     try {
-                    	FileWriter writer = new FileWriter("Результат.txt");
-                    	writer.write("Визитки" +
-                    	"\nТираж: " + tiraj_val +
-                    	"\nСтоимость бумаги: " + paper_bcards_val +
-                    	"\nСтоимость формата: " + phormat_bcards_val +
-                    	"\nСтоимость типа: " + type_bcards_val +
-                    	"\nСтоимость ламинации: " + lam_val +
-                    	"\nСтоимость скругления углов: " + ang_val +
-                    	"\nСкидка: " + discount +
-                    	"\nЦена: " + rez4_value);
-                    	writer.close();
-                    	} catch(IOException ex) {
-                    	ex.printStackTrace();
-                    	}
-                    	result.setText(rez4_value+" Рублей");
+                        FileWriter writer = new FileWriter("Результат.txt");
+                        writer.write("Визитки" +
+                                "\nТираж: " + tiraj_val +
+                                "\nСтоимость бумаги: " + paper_bcards_val +
+                                "\nСтоимость формата: " + phormat_bcards_val +
+                                "\nСтоимость типа: " + type_bcards_val +
+                                "\nСтоимость ламинации: " + lam_val +
+                                "\nСтоимость скругления углов: " + ang_val +
+                                "\nСкидка: " + discount +
+                                "\nЦена: " + rez4_value);
+                        writer.close();
+                    } catch(IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    result.setText(rez4_value+" Рублей");
                     discount = 0;
                     mn_size_bcards = 0;
                     return;
                 }
-                    }
+            }
         });
 
         setContentPane(contents);
@@ -637,14 +717,16 @@ public class Calc extends JFrame {
 
     }
     public static void main(String[] args) {
-    	Runnable runnable = new Runnable()
-    	{
-    	@Override
-    	public void run()
-    	{
-    	new Calc();
-    	}
-    	};
-    	EventQueue.invokeLater(runnable);
+        Runnable runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                new Calc();
+            }
+        };
+        EventQueue.invokeLater(runnable);
+
     }
-    }
+
+}
