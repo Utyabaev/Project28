@@ -6,12 +6,12 @@ import javax.swing.*;
 
 public class Info implements ActionListener {
 
-	String madeby = "Р Р°Р·СЂР°Р±РѕС‚С‡РёРєРё", u2 = "РўСѓРєР°РµРІ Рђ.Р. - Р Р°Р·СЂР°Р±РѕС‚С‡РёРє 1", u3 = "Р¤РёР»Р°С‚РѕРІ Р.Рњ. - Р Р°Р·СЂР°Р±РѕС‚С‡РёРє 2", u4 = "РљСѓР»РёРєРѕРІР° Рђ.Рћ. - Р Р°Р·СЂР°Р±РѕС‚С‡РёРє 3";
+	String madeby = "Разработчики", u2 = "Тукаев А.И. - Разработчик 1", u3 = "Филатов И.М. - Разработчик 2", u4 = "Куликова А.О. - Разработчик 3";
 	
 	public void actionPerformed(ActionEvent arg0) {
 	
 		final JFrame main_info = new JFrame("subversion");
-		main_info.setTitle ("РРЅС„РѕСЂРјР°С†РёСЏ");
+		main_info.setTitle ("Информация");
 		main_info.setBounds(500,400,400,340);
 		main_info.setLocationRelativeTo(null);
 		main_info.setResizable(false);
@@ -38,7 +38,7 @@ public class Info implements ActionListener {
 		user428.setBounds(95,85,300,25);
 		main_panel.add(user428);
 		
-		JButton back = new JButton("РќР°Р·Р°Рґ");
+		JButton back = new JButton("Назад");
 		back.setBounds(150, 110, 100, 25);
 		main_panel.add(back);
 		back.addActionListener(new ActionListener() {
